@@ -1,6 +1,8 @@
 import z from 'zod/v4';
 
 export enum EAPP_ENV {
+  LOCAL = 'local',
+  TEST = 'test',
   DEVELOPMENT = 'development',
   STAGING = 'staging',
   PRODUCTION = 'production',
@@ -16,5 +18,8 @@ const envSchema = z.object({
 
   SECRET: z.string().trim().min(1),
 });
+
+console.log('NODE_ENV => ', process.env.NODE_ENV);
+console.log('APP_ENV => ', process.env.APP_ENV);
 
 export default envSchema.parse(process.env);
