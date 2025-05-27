@@ -7,19 +7,14 @@ export enum EAPP_ENV {
 }
 
 const envSchema = z.object({
+  APP_NAME: z.string().trim().min(1),
   APP_ENV: z.enum(EAPP_ENV),
   APP_PORT: z.coerce.number().positive(),
   APP_HOST: z.ipv4(),
 
   MONGODB_URI: z.url().max(2048),
+
+  SECRET: z.string().trim().min(1),
 });
 
-const { success, data, error } = envSchema.safeParse(process.env);
-
-if (!success) {
-  throw new Error(
-    `INVALID ENV => ${JSON.stringify(z.treeifyError(error), null, 2)}`,
-  );
-}
-
-export const env = data;
+export default envSchema.parse(process.env);
